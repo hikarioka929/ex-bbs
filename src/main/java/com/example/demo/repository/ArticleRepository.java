@@ -41,13 +41,11 @@ public class ArticleRepository {
 	/**
 	 * 渡した記事情報を保存する.
 	 * @param article 記事情報
-	 * @return 追加された後の記事情報
 	 */
-	public Article insert(Article article) {
+	public void insert(Article article) {
 		SqlParameterSource param
 		= new BeanPropertySqlParameterSource(article);
 		String sql = "INSERT INTO articles(name, content) VALUES (:name, :content);";
 		template.update(sql, param);
-		return article;
 	}
 }

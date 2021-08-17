@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.domain.Article;
+import com.example.demo.domain.Comment;
 import com.example.demo.form.InsertArticleForm;
-import com.example.demo.service.ArticleService;
+import com.example.demo.repository.ArticleRepository;
+import com.example.demo.repository.CommentRepository;
 
 /**
  * 掲示板関連機能の処理の制御を行うコントローラ.
@@ -24,7 +26,10 @@ import com.example.demo.service.ArticleService;
 public class BbsController {
 	
 	@Autowired
-	private ArticleService articleService;
+	private ArticleRepository articleRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	@ModelAttribute
 	public InsertArticleForm setUpInsertArticleForm() {
@@ -38,7 +43,11 @@ public class BbsController {
 	 */
 	@RequestMapping("")
 	public String index(Model model) {
-		List<Article> articleList = articleService.searchAll();
+		List<Article> articleList = articleRepository.findAll();
+		for (Article article : articleList) {
+			List<Comment> commentList = commentRepository.findByArticleId(article.getId());
+			article.setCommentList(commentList);
+		}
 		model.addAttribute("articleList", articleList);
 		return "top";
 	}
@@ -49,10 +58,10 @@ public class BbsController {
 	 * @return 記事一覧画面
 	 */
 	@RequestMapping("/save")
-	public String save(InsertArticleForm form) {
+	public String insertArticle(InsertArticleForm form) {
 		Article article = new Article();
 		BeanUtils.copyProperties(form, article);
-		articleService.save(article);
+		articleRepository.insert(article);
 		return "redirect:/board";
 	}
 }
