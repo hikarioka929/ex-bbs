@@ -84,4 +84,17 @@ public class BbsController {
 		commentRepository.insert(comment);
 		return "redirect:/board";
 	}
+	
+	/**
+	 * 渡された記事情報を削除する.
+	 * (記事情報に関連したコメントも削除する)
+	 * @param id 記事ID
+	 * @return 記事一覧画面
+	 */
+	@RequestMapping("/delete-article")
+	public String deleteArticle(Integer id) {
+		commentRepository.deleteByArticleId(id);
+		articleRepository.deleteById(id);
+		return "redirect:/board";
+	}
 }
