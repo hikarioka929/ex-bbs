@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.domain.Article;
 import com.example.demo.domain.Comment;
+import com.example.demo.form.CommentForm;
 import com.example.demo.form.InsertArticleForm;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.CommentRepository;
@@ -34,6 +35,12 @@ public class BbsController {
 	@ModelAttribute
 	public InsertArticleForm setUpInsertArticleForm() {
 		InsertArticleForm form = new InsertArticleForm();
+		return form;
+	}
+	
+	@ModelAttribute
+	public CommentForm setUpCommentForm() {
+		CommentForm form = new CommentForm();
 		return form;
 	}
 	
@@ -62,6 +69,19 @@ public class BbsController {
 		Article article = new Article();
 		BeanUtils.copyProperties(form, article);
 		articleRepository.insert(article);
+		return "redirect:/board";
+	}
+	
+	/**
+	 * 渡されたコメント情報を保存する.
+	 * @param form 入力された値が詰まったオブジェクト
+	 * @return 記事一覧画面
+	 */
+	@RequestMapping("/insert-comment")
+	public String insertComment(CommentForm form) {
+		Comment comment = new Comment();
+		BeanUtils.copyProperties(form, comment);
+		commentRepository.insert(comment);
 		return "redirect:/board";
 	}
 }
