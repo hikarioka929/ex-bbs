@@ -51,10 +51,6 @@ public class BbsController {
 	@RequestMapping("")
 	public String index(Model model) {
 		List<Article> articleList = articleRepository.findAll();
-		for (Article article : articleList) {
-			List<Comment> commentList = commentRepository.findByArticleId(article.getId());
-			article.setCommentList(commentList);
-		}
 		model.addAttribute("articleList", articleList);
 		return "top";
 	}
