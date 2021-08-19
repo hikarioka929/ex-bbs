@@ -1,5 +1,7 @@
 package com.example.demo.form;
 
+import javax.validation.constraints.*;
+
 /**
  * 記事投稿時に使用するフォーム.
  * 
@@ -9,8 +11,10 @@ package com.example.demo.form;
 public class InsertArticleForm {
 
 	/** 名前 */
+	@NotBlank(message="名前は必須です")
 	private String name;
 	/** 記事内容 */
+	@NotBlank(message="記事内容は必須です")
 	private String content;
 
 	public String getName() {

@@ -1,5 +1,7 @@
 package com.example.demo.form;
 
+import javax.validation.constraints.*;
+
 /**
  * コメント投稿時に使用するフォーム.
  * 
@@ -9,11 +11,13 @@ package com.example.demo.form;
 public class CommentForm {
 
 	/** 名前 */
+	@NotBlank(message = "名前は必須です")
 	private String name;
 	/** コメント内容 */
+	@NotBlank(message = "コメント内容は必須です")
 	private String content;
 	/** 記事ID */
-	private Integer articleId;
+	private String articleId;
 
 	public String getName() {
 		return name;
@@ -31,16 +35,21 @@ public class CommentForm {
 		this.content = content;
 	}
 
-	public Integer getArticleId() {
+	public String getArticleId() {
 		return articleId;
 	}
 
-	public void setArticleId(Integer articleId) {
+	public void setArticleId(String articleId) {
 		this.articleId = articleId;
+	}
+	
+	public Integer getIntArticleId() {
+		return Integer.parseInt(articleId);
 	}
 
 	@Override
 	public String toString() {
 		return "CommentForm [name=" + name + ", content=" + content + ", articleId=" + articleId + "]";
 	}
+
 }

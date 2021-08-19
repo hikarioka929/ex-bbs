@@ -6,7 +6,9 @@
 </head>
 <body>
 <form th:action="@{/board/save}" method="post" th:object="${insertArticleForm}">
+	<div th:errors="*{name}" style="color:red"></div>
 	投稿者名:<input type="text" name="name" th:field="*{name}"><br>
+	<div th:errors="*{content}" style="color:red"></div>
 	投稿内容:<textarea name="content" th:field="*{content}"></textarea><br>
 	<button>記事投稿</button>
 </form>
@@ -27,9 +29,11 @@
 		<span th:text="${comment.content}"></span>
 	</div>
 	<form th:object="${commentForm}" method="post" th:action="@{/board/insert-comment}">
-		名前 :<br>
+		名前 :　<span th:text="${article.id}"></span><br>
+		<div th:if="${commentForm.articleId} == ${article.id}" th:errors="*{name}" style="color:red"></div>
 		<input type="text" name="name" th:field="*{name}"><br>
 		コメント :<br>
+		<div th:if="${commentForm.articleId} == ${article.id}" th:errors="*{content}" style="color:red"></div>
 		<textarea name="content" th:field="*{content}"></textarea><br>
 		<input type="hidden" name="articleId" th:value="${article.id}">
 		<button>コメント投稿</button>
